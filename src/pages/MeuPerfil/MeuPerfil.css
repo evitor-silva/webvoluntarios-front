@@ -1,0 +1,62 @@
+.perfil-container {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    background-color: #f0f2f5;
+}
+
+.perfil-box {
+    background: #fff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 800px;
+}
+
+.perfil-box h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.perfil-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.perfil-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+.conquistas-section, .servicos-section, .avaliacoes-section {
+    margin-bottom: 30px;
+}
+
+.servico-item, .avaliacao-item {
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.servico-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.back-btn {
+    display: block;
+    width: 200px;
+    margin: 20px auto 0;
+    padding: 10px;
+    background-color: #1877f2;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
