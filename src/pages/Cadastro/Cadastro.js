@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import './Cadastro.css';
+import api from "../../api";
 
 const Cadastro = () => {
     const [nome, setNome] = useState('');
@@ -17,7 +17,7 @@ const Cadastro = () => {
             return;
         }
         try {
-            await axios.post('/auth/register', { name: nome, email, password: senha });
+            await api.post('/auth/register', { name: nome, email, password: senha });
             alert('Cadastro realizado com sucesso!');
             navigate('/login');
         } catch (error) {
