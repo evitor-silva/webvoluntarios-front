@@ -12,8 +12,12 @@ const Dashboard = () => {
     let token = localStorage.getItem('token');
 
 
+
     useEffect(() => {
-        if (!token) return;
+        if (!token) {
+            navigate("/login");
+            return;
+        }
 
         try {
             const decoded = jwtDecode(token);
@@ -40,7 +44,13 @@ const Dashboard = () => {
         };
 
         fetchData();
-    }, [token]);
+    }, [token, navigate]);
+
+    const loggout = () =>{
+        localStorage.clear();
+        alert("Logged out");
+        navigate("/login");
+    }
 
 
     return (
@@ -56,7 +66,7 @@ const Dashboard = () => {
                 <div className="header-buttons">
                     <button onClick={() => navigate("/novo-servico")}>Oferecer/Solicitar Serviço</button>
                     <button>Meu Perfil</button>
-                    <button>Sair</button>
+                    <button onClick={() => loggout() }>Sair</button>
                 </div>
             </div>
 
@@ -105,7 +115,7 @@ const Dashboard = () => {
                         <div>
                             <h4>{data.titulo}</h4>
                             <p>Status: {data.status}</p>
-                            <p>Oferecido por {data.usuario}</p>
+                            <p>Oferecido por {data.proprietario.name}</p>
                         </div>
                         <button>Ver Detalhes</button>
                     </div>

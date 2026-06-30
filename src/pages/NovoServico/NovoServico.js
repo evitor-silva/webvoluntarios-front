@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import './NovoServico.css';
 import api from "../../api";
-import {jwtDecode} from "jwt-decode";
+import {useNavigate} from "react-router-dom";
 
 const NovoServico = () => {
     const [findCategory, setCategory] = useState([]);
@@ -9,6 +9,7 @@ const NovoServico = () => {
     const [titulo, setTitulo] = useState("");
     const [categoria, setCategoriaSelecionada] = useState("");
     const [descricao, setDescricao] = useState("");
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -27,11 +28,9 @@ const NovoServico = () => {
     function onSubmit(e) {
         e.preventDefault();
         let token = localStorage.getItem('token');
-        const decoded = jwtDecode(token);
 
         const payload = {
             categorias_id: categoria,
-            proprietario_usuario_id: decoded?.user,
             titulo: titulo,
             descricao: descricao,
             status: "Disponivel"
@@ -42,8 +41,18 @@ const NovoServico = () => {
             {
                 headers: {Authorization: `Bearer ${token}`}
             }
-        );
+        ).then(() => {
+            alert("Serviço criado com sucesso")
+        }).catch((error) => {
+            alert("Erro ao enviar formulário " + error)
+        })
+
     }
+    function redirectBack() {
+        navigate("/dashboard");
+    }
+
+
 
     return (
         <div className="novo-servico-container">
@@ -105,7 +114,7 @@ const NovoServico = () => {
 
                     <div className="form-buttons">
                         <button type="submit" className="publish-btn">Publicar Serviço</button>
-                        <button type="button" className="dashboard-btn">Voltar para o Dashboard</button>
+                        <button type="button" className="dashboard-btn" onClick={(e) => redirectBack(e)}>Voltar para o Dashboard</button>
                     </div>
                 </form>
             </div>

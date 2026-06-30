@@ -46,7 +46,7 @@ const MeuPerfil = () => {
                     </div>
                 </div>
 
-                <button className="back-btn">Voltar para o Dashboard</button>
+                <button className="back-btn" >Voltar para o Dashboard</button>
             </div>
         </div>
     );
