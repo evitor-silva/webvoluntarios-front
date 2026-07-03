@@ -11,8 +11,6 @@ const Dashboard = () => {
     const navigate = useNavigate();
     let token = localStorage.getItem('token');
 
-
-
     useEffect(() => {
         if (!token) {
             navigate("/login");
@@ -29,9 +27,11 @@ const Dashboard = () => {
         const fetchData = async () => {
             try {
                 const [servicesRes, rankingRes] = await Promise.all([
-                    api.get("/service"),
+                    api.get("/service",{
+                        headers: {Authorization: `Bearer ${token}`}
+                    }),
                     api.get("/ranking", {
-                        headers: { Authorization: `Bearer ${token}` }
+                        headers: {Authorization: `Bearer ${token}`}
                     })
                 ]);
 
@@ -46,7 +46,7 @@ const Dashboard = () => {
         fetchData();
     }, [token, navigate]);
 
-    const loggout = () =>{
+    const loggout = () => {
         localStorage.clear();
         alert("Logged out");
         navigate("/login");
@@ -65,8 +65,8 @@ const Dashboard = () => {
                 </div>
                 <div className="header-buttons">
                     <button onClick={() => navigate("/novo-servico")}>Oferecer/Solicitar Serviço</button>
-                    <button>Meu Perfil</button>
-                    <button onClick={() => loggout() }>Sair</button>
+                    <button onClick={() => navigate("/perfil")}>Meu Perfil</button>
+                    <button onClick={() => loggout()}>Sair</button>
                 </div>
             </div>
 

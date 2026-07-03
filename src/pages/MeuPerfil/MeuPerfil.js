@@ -1,16 +1,34 @@
-import React from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import './MeuPerfil.css';
+import {useNavigate} from "react-router-dom";
+import api from "../../api";
 
 const MeuPerfil = () => {
+    const navigate = useNavigate();
+    const [userData, setUser] = useState(null);
+    let token = localStorage.getItem('token');
+
+    const fetchUserData = useCallback(() => {
+        api("/profile", {
+            headers: {Authorization: `Bearer ${token}`}
+        }).then((data) => {
+            setUser(data.data);
+        }).catch(err => console.error(err));
+    }, [token])
+
+    useEffect(() => {
+        fetchUserData();
+    }, [fetchUserData]);
+
     return (
         <div className="perfil-container">
             <div className="perfil-box">
                 <h2>Meu Perfil</h2>
                 <div className="perfil-header">
-                    <img src="https://via.placeholder.com/80" alt="Avatar do usuário" className="perfil-avatar" />
+                    <img src="https://via.placeholder.com/80" alt="Avatar do usuário" className="perfil-avatar"/>
                     <div className="perfil-info">
-                        <h3>Lucas Lima</h3>
-                        <p>Email: lucas.lima@example.com</p>
+                        <h3>{userData?.name}</h3>
+                        <p>Email: {userData?.email}</p>
                         <p>Nível: Colaborador</p>
                         <p>Pontuação Total: 110 pontos</p>
                     </div>
@@ -26,15 +44,17 @@ const MeuPerfil = () => {
                 </div>
 
                 <div className="servicos-section">
-                    <h3>Meus Serviços Cadastrados</h3>
-                    <div className="servico-item">
-                        <div>
-                            <h4>Aulas de Matemática</h4>
-                            <p>Status: Disponível</p>
-                            <p>Categoria: Aulas/Educação</p>
+                    {userData?.Servicos.map((servico) => (
+                        <div className="servico-item" key={servico.id}>
+                            <div>
+                                <h4>{servico.titulo}</h4>
+                                <p>Status: {servico.status}</p>
+
+                                <p>Categoria: {servico.Category?.nome || 'Sem Categoria'}</p>
+                            </div>
+                            <button >Editar</button>
                         </div>
-                        <button>Editar</button>
-                    </div>
+                    ))}
                 </div>
 
                 <div className="avaliacoes-section">
@@ -46,7 +66,7 @@ const MeuPerfil = () => {
                     </div>
                 </div>
 
-                <button className="back-btn" >Voltar para o Dashboard</button>
+                <button className="back-btn" onClick={() => navigate("/dashboard")}>Voltar para o Dashboard</button>
             </div>
         </div>
     );
